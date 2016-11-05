@@ -59,6 +59,8 @@ def safe_map_inc(map, key, amount = 1):
 def get_webpage(url, headers):	
 	print("Grabbing url: " + url)
 	response = requests.get(url) #, headers=headers)
+	print(dir(response))
+	print(response.headers)
 	
 	return response.content, response.headers['content-type']
 
@@ -79,8 +81,10 @@ def translate_and_cache(map, path, headers):
     else:
         return entry
 
-ErrorPageHeader = enc("<html><head><title>Error</title></head><body><h1>")
-ErrorPageFooter = enc("</h1></body></html>")
+
+currentSite = ''
+ErrorPageHeader = enc("<html><head><title>Error</title></head><body><h1>ServerError</h1><p>")
+ErrorPageFooter = enc("</p></body></html>")
 #server_list_HTML_cache = CachedGeneratedPage(writeServerInfoHTML)
 # This class will handle any incoming request from
 # a browser 
@@ -89,15 +93,27 @@ class webHandler(BaseHTTPRequestHandler):
 					
 	def doCachedResource(self, path, headers):
 		self.send_response(200)
-		
+		global currentSite
 		#if os.path.isabs(self.path):
 		#	print("Absolute path provided, dropping: " + self.path)					
 		#else:									
 		try:
-
-
+			path = path.strip("\\/")
+			http_idx = path.find('http://')
+			if http_idx != -1:
+				currentSiteNameEndIdx = path.find("/", http_idx+7)
+				if currentSiteNameEndIdx != -1:				
+					currentSite = path[:currentSiteNameEndIdx+1]
+				else:
+					currentSite = path
+				print("Current site: " + currentSite)
+				if currentSite.endswith('/') == False:
+					currentSite = currentSite + "/"
+				print("Current site: " + currentSite)
+			else:
+				path = currentSite + path
 			#path = os.path.join(basedir, path.strip("\\/"))	
-			path = path.strip("\\/")							
+			
 			page, mime, time = translate_and_cache(StaticWebPageMap, path, headers)
 			print(Fore.MAGENTA + " Serving content with following mime type: " + str(mime))
 			self.send_header('Content-type',mime)
