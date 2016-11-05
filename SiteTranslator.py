@@ -122,11 +122,6 @@ class webHandler(BaseHTTPRequestHandler):
 		# Send the html message
 		self.doCachedResource(path, self.headers)			
 				
-		#print(text)
-		#self.wfile.write(bytes("<p>hello world</p>", 'UTF-8'))
-		#
-		#for txt in text:
-		#   self.wfile.write(bytes(txt + "<br/>", 'UTF-8') )
 		return
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
