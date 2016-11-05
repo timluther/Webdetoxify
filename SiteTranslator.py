@@ -41,7 +41,10 @@ DotoxifyList = [
 (enc('Enter your search') , enc('Pit of despair')),
 (enc('Remoaners'), enc('Rational remainers')),
 (enc('DON\'T MISS</h3>') , enc('SIDEBAR OF SHAME</h3>')),
-(enc('News</a>'), enc('So Called News</a>'))
+(enc('News</a>'), enc('So Called News</a>')),
+(enc('<li>TRENDING:</li>'), enc("<li>IT'S ALL LIES</li>")),
+(enc('Daily Express'), enc("Daily Excess")),
+(enc('<a href="/horoscope">Daily<br>Horoscope</a>'), enc('<a href="http://rationalsciencemethod.blogspot.co.uk/2012/12/the-rational-scientific-method.html">Horoscopes are superstitious nonsense</a>'))
 ]
 
 StaticWebPageMap = {}
